@@ -13,3 +13,5 @@ mise up
 # install kamal
 gem install kamal
 ```
+
+See `.env.example` for environment setup.
