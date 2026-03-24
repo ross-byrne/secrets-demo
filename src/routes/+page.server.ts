@@ -1,4 +1,5 @@
-import { MY_PUBLIC_CHEESE, MY_SECRET_CHEESE } from '$env/static/private';
+import { env } from '$env/dynamic/private';
+const { MY_PUBLIC_CHEESE, MY_SECRET_CHEESE } = env;
 
 export function load() {
   return {
