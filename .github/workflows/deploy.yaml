@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - stage-2
+
+jobs:
+  build_and_deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    env:
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+    steps:
+      - name: Load secrets from 1password
+        id: load_secrets
+        uses: 1password/load-secrets-action@v4
+        env:
+          CI_PRIVATE_SSH_KEY: "op://Cheese Vault/CI_SSH_KEY/private key"
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: 4
+
+      - name: Install Kamal
+        run: gem install kamal -v 2.11.0
+
+      - name: Load SSH key to connect to server
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ steps.load_secrets.outputs.CI_PRIVATE_SSH_KEY }}
+
+      - name: Build and deploy
+        run: kamal deploy
