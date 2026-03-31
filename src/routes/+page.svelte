@@ -15,7 +15,7 @@
     class="min-h-screen flex flex-col items-center justify-start pt-[20vh] px-4"
 >
     <h1 class="text-3xl font-bold text-center text-yellow-800 mb-8">
-        The Cheese Vault 🧀
+        The Cheese Vault 🧀🧀🧀🧀
     </h1>
 
     <div
